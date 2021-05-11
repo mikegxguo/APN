@@ -11,18 +11,35 @@ import android.view.View;
 import android.widget.Toast;
 import android.util.Log;
 
+import android.content.Context;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
+import android.telephony.TelephonyManager;
 
 
 
 public class APNActivity extends Activity {
 
     private static String TAG = "APNActivity";
+    private Context mContext;
+    private TelephonyManager mTelephonyManager;
+    private SubscriptionInfo mSubscriptionInfo;
 
 
-    /** Called when the activity is first created. */
+    private SubscriptionInfo getPhoneSubscriptionInfo(int slotId) {
+        return SubscriptionManager.from(mContext).getActiveSubscriptionInfoForSimSlotIndex(slotId);
+    }
+    String getSimSerialNumber(int subscriptionId) {
+        return mTelephonyManager.getSimSerialNumber(subscriptionId);
+    }
+
+/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = getApplicationContext();
+        mSubscriptionInfo = getPhoneSubscriptionInfo(0);
+        mTelephonyManager =  mContext.getSystemService(TelephonyManager.class);
         setContentView(R.layout.main);
         Log.d(TAG, "onCreate");
     }
@@ -45,6 +62,7 @@ public class APNActivity extends Activity {
         Log.d(TAG, "onStop");
     }
 
+/*
     public void onSetAPN(View v) {
         String name = "EROAD";
         String apn = "inetd.vodafone.iot";
@@ -63,6 +81,13 @@ public class APNActivity extends Activity {
         //Toast
         Toast.makeText(getApplication(),
                     getApplication().getString(R.string.toast_new_apn),
+                    Toast.LENGTH_LONG).show();
+    }
+*/
+    public void onSetAPN(View v) {
+        final int subscriptionId = mSubscriptionInfo.getSubscriptionId();
+        Toast.makeText(getApplication(),
+                    getSimSerialNumber(subscriptionId),
                     Toast.LENGTH_LONG).show();
     }
 

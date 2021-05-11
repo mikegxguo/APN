@@ -2,11 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mitac.apn"
     android:versionCode="1"
-    android:versionName="1.0" >
-<!--    android:sharedUserId="android.uid.system" !-->
+    android:versionName="1.0"
+    android:sharedUserId="android.uid.system" >
 
     <uses-sdk android:minSdkVersion="17" />
     <uses-permission android:name="android.permission.WRITE_APN_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:icon="@drawable/ic_launcher"
